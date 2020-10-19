@@ -26,9 +26,9 @@ public class EmailNoticeServiceImpl implements NoticeService {
         if (data.containsKey("cc")) {
             message.setCc(data.getJsonArray("cc").getList());
         }
+        message.setSubject(data.getString("subject"));
         message.setText(data.getString("text"));
         message.setHtml(data.getString("html"));
-
         mailClient.sendMail(message)
                 .onFailure(e -> {
                     LOGGER.error(data.toString(), e);
