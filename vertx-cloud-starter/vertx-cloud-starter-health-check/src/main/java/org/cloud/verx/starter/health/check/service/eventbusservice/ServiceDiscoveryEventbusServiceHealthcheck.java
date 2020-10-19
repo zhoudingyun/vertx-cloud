@@ -9,7 +9,7 @@ import io.vertx.servicediscovery.types.EventBusService;
 import org.cloud.verx.starter.health.check.SubHealthcheck;
 
 public class ServiceDiscoveryEventbusServiceHealthcheck extends SubHealthcheck implements Healthcheck {
-    private static final String PRE_REGISTER_NAME = "service.discovery";
+    private static final String PRE_REGISTER_NAME = "service.discovery.eventbus-service";
 
     public ServiceDiscoveryEventbusServiceHealthcheck(HealthCheckHandler healthCheckHandler) {
         super(healthCheckHandler);

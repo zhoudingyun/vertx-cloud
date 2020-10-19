@@ -7,7 +7,7 @@ import io.vertx.core.impl.logging.LoggerFactory;
 public class EventBusEndpoint {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventBusEndpoint.class);
     private Vertx vertx;
-    public static final String ADDRESS = "health.check.eventbus.point";
+    public static final String ADDRESS = "address.vertxhealthcheckeventbus";
 
     public EventBusEndpoint(Vertx vertx) {
         this.vertx = vertx;

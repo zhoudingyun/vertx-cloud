@@ -1,5 +1,6 @@
 package org.cloud.verx.starter.health.check.service.httpendpoint;
 
+import io.vertx.servicediscovery.Record;
 import org.cloud.verx.starter.health.checkpoint.HttpServiceEndpoint;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
@@ -15,36 +16,39 @@ import org.cloud.verx.starter.health.check.Healthcheck;
 import org.cloud.verx.starter.health.check.SubHealthcheck;
 
 public class ServiceDiscoveryHttpEndPointHealthcheck extends SubHealthcheck implements Healthcheck {
-    private static final String PRE_REGISTER_NAME = "service.discovery";
+    private static final String PRE_REGISTER_NAME = "service.discovery.http-endpoint";
 
     public ServiceDiscoveryHttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler) {
         super(healthCheckHandler);
     }
 
     @Override
-    public void check(ServiceDiscovery discovery, String serviceName, String registerName) {
-        JsonObject filter = new JsonObject().put("name", serviceName);
-        discovery.getRecords(new JsonObject()).onSuccess(records->{
-           System.out.println(records.size());
-        });
-        healthCheckHandler.register(this.getRegisterName(registerName),
-                promise -> {
-                    HttpEndpoint.getWebClient(discovery, filter, client -> {
-                        if (client.failed()) {
-                            promise.fail(client.cause());
-                        } else {
-                            WebClient webClient = client.result();
-                            HttpRequest<Buffer> request = webClient.get(HttpServiceEndpoint.PATH);
-                            Future<HttpResponse<Buffer>> response = request.send();
-                            response.onSuccess(a -> {
-                                promise.complete(Status.OK());
-                            }).onFailure(e -> {
-                                promise.fail(e);
-                            });
-                        }
-                    });
+    public void check(ServiceDiscovery discovery, String registerName) {
+        discovery.getRecords(new JsonObject()).onSuccess(records -> {
+            for (Record record : records) {
+                if ("http-endpoint".equals(record.getType())) {
+                    JsonObject filter = new JsonObject().put("name", record.getName());
+                    healthCheckHandler.register(this.getRegisterName(record.getName()),
+                            promise -> {
+                                HttpEndpoint.getWebClient(discovery, filter, client -> {
+                                    if (client.failed()) {
+                                        promise.fail(client.cause());
+                                    } else {
+                                        WebClient webClient = client.result();
+                                        HttpRequest<Buffer> request = webClient.get(HttpServiceEndpoint.PATH);
+                                        Future<HttpResponse<Buffer>> response = request.send();
+                                        response.onSuccess(a -> {
+                                            promise.complete(Status.OK());
+                                        }).onFailure(e -> {
+                                            promise.fail(e);
+                                        });
+                                    }
+                                });
+                            }
+                    );
                 }
-        );
+            }
+        });
     }
 
     @Override

@@ -1,18 +1,5 @@
 package org.cloud.verx.starter.health.check;
 
-import io.vertx.servicediscovery.ServiceDiscoveryOptions;
-import org.cloud.verx.starter.health.check.cluster.hazelcast.HazelcastClusterManagerHealthcheck;
-import org.cloud.verx.starter.health.check.cluster.ignite.IgniteClusterManagerHealthcheck;
-import org.cloud.verx.starter.health.check.database.mysql.client.MysqlClientHealthcheck;
-import org.cloud.verx.starter.health.check.database.mysql.jdbc.MysqlJdbcHealthcheck;
-import org.cloud.verx.starter.health.check.database.redis.RedisHealthcheck;
-import org.cloud.verx.starter.health.check.eventbus.EventBusHealthcheck;
-import org.cloud.verx.starter.health.check.messaging.kafka.KafkaHealthcheck;
-import org.cloud.verx.starter.health.check.service.eventbusservice.ServiceDiscoveryEventbusServiceHealthcheck;
-import org.cloud.verx.starter.health.check.service.httpendpoint.ServiceDiscoveryHttpEndPointHealthcheck;
-import org.cloud.verx.starter.health.checkpoint.EventBusEndpoint;
-import org.cloud.verx.starter.health.checkpoint.EventBusServiceEndpoint;
-import org.cloud.verx.starter.health.checkpoint.HttpServiceEndpoint;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
 import io.vertx.core.impl.logging.Logger;
@@ -25,9 +12,22 @@ import io.vertx.ext.web.Router;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.redis.client.Redis;
 import io.vertx.servicediscovery.ServiceDiscovery;
+import io.vertx.servicediscovery.ServiceDiscoveryOptions;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import io.vertx.spi.cluster.ignite.IgniteClusterManager;
 import io.vertx.sqlclient.Pool;
+import org.cloud.verx.starter.health.check.cluster.hazelcast.HazelcastClusterManagerHealthcheck;
+import org.cloud.verx.starter.health.check.cluster.ignite.IgniteClusterManagerHealthcheck;
+import org.cloud.verx.starter.health.check.database.mysql.client.MysqlClientHealthcheck;
+import org.cloud.verx.starter.health.check.database.mysql.jdbc.MysqlJdbcHealthcheck;
+import org.cloud.verx.starter.health.check.database.redis.RedisHealthcheck;
+import org.cloud.verx.starter.health.check.eventbus.EventBusHealthcheck;
+import org.cloud.verx.starter.health.check.messaging.kafka.KafkaHealthcheck;
+import org.cloud.verx.starter.health.check.service.eventbusservice.ServiceDiscoveryEventbusServiceHealthcheck;
+import org.cloud.verx.starter.health.check.service.httpendpoint.ServiceDiscoveryHttpEndPointHealthcheck;
+import org.cloud.verx.starter.health.checkpoint.EventBusEndpoint;
+import org.cloud.verx.starter.health.checkpoint.EventBusServiceEndpoint;
+import org.cloud.verx.starter.health.checkpoint.HttpServiceEndpoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +48,6 @@ public class HealthCheckBuilder {
     // kafka
     private List<KafkaProducer<?, ?>> kafkaProducerList = new ArrayList<>();
 
-    // HttpEndpointServiceDiscovery 检测
-    private List<HttpEndpointHealthCheck> httpEndpointServiceDiscovery = new ArrayList<>();
-
-    private Vertx vertx;
-    private Router router;
-    private HealthCheckHandler healthCheckHandler;
-    private HealthChecks healthChecks;
-
     // 开启集群检测
     private boolean openClusterHealthCheck;
     // 开启eventbus检测
@@ -64,8 +56,16 @@ public class HealthCheckBuilder {
     // eventbus 检测点
     private EventBusEndpoint eventBusEndpoint;
 
-    // EventBusServiceServiceDiscovery 检测
+    /*************************************************微服务************************************************************/
+    // ServiceDiscovery EventBusService 检测
     private ServiceDiscovery eventBusServiceServiceDiscovery;
+    // ServiceDiscovery HttpEndpoint 检测
+    private List<ServiceDiscovery> httpEndpointServiceDiscovery = new ArrayList<>();
+
+    private Vertx vertx;
+    private Router router;
+    private HealthCheckHandler healthCheckHandler;
+    private HealthChecks healthChecks;
 
     /**
      * 构造.
@@ -149,13 +149,25 @@ public class HealthCheckBuilder {
     }
 
     /**
-     * 增加服务发现与注册健康检测
+     * 增加ServiceDiscovery HttpEndpoint 检测
      *
      * @param serviceDiscovery
      * @return
      */
-    public HealthCheckBuilder addHttpEndpointHealthCheck(ServiceDiscovery serviceDiscovery, String serviceName) {
-        httpEndpointServiceDiscovery.add(new HttpEndpointHealthCheck(serviceDiscovery, serviceName));
+    public HealthCheckBuilder addHttpEndpointHealthCheck(ServiceDiscovery serviceDiscovery) {
+        httpEndpointServiceDiscovery.add(serviceDiscovery);
+        return this;
+    }
+
+    /**
+     * 开启 ServiceDiscovery EventBusService 健康检测
+     *
+     * @return
+     */
+    public HealthCheckBuilder openEventbusServiceHealthCheck() {
+        if (eventBusServiceServiceDiscovery == null) {
+            eventBusServiceServiceDiscovery = createServiceDiscovery();
+        }
         return this;
     }
 
@@ -179,18 +191,6 @@ public class HealthCheckBuilder {
         return this;
     }
 
-    /**
-     * 开启 eventBusService 健康检测
-     *
-     * @return
-     */
-    public HealthCheckBuilder openEventbusServiceHealthCheck() {
-        if (eventBusServiceServiceDiscovery == null) {
-            eventBusServiceServiceDiscovery = createServiceDiscovery();
-        }
-        return this;
-    }
-
     private ServiceDiscovery createServiceDiscovery() {
         ServiceDiscoveryOptions serviceDiscoveryOptions = new ServiceDiscoveryOptions();
         serviceDiscoveryOptions.setAnnounceAddress("/");
@@ -198,6 +198,7 @@ public class HealthCheckBuilder {
         return ServiceDiscovery.create(vertx, serviceDiscoveryOptions);
     }
 
+    /************************************************创建健康检测点*******************************************************/
     /**
      * 创建EventBus健康检测点
      *
@@ -241,6 +242,8 @@ public class HealthCheckBuilder {
         }
     }
 
+    /************************************************创建健康检测点**结束**************************************************/
+
     public void build() {
         if (healthCheckHandler != null) {
             // MysqlClient
@@ -255,10 +258,15 @@ public class HealthCheckBuilder {
                 // Cluster
                 if (openClusterHealthCheck) {
                     buildClusterHealthcheck(healthCheckHandler, vertx);
+                } else {
+                    LOGGER.warn("openClusterHealthCheck is false, dependent health detection creation failed");
                 }
+
                 if (openEventBusHealthCheck) {
                     // EventBus
                     buildEventBusHealthcheck(healthCheckHandler, vertx);
+                } else {
+                    LOGGER.warn("openEventBusHealthCheck is false, dependent health detection creation failed");
                 }
 
                 if (!httpEndpointServiceDiscovery.isEmpty()) {
@@ -267,6 +275,7 @@ public class HealthCheckBuilder {
                 } else {
                     LOGGER.warn("httpEndpointServiceDiscovery is empty, dependent health detection creation failed");
                 }
+
                 if (eventBusServiceServiceDiscovery != null) {
                     // ServiceDiscoveryEventbusService
                     buildServiceDiscoveryEventbusServiceHealthcheck(healthCheckHandler, eventBusServiceServiceDiscovery);
@@ -281,6 +290,12 @@ public class HealthCheckBuilder {
         }
     }
 
+    /**
+     * 构建MysqlClient健康检测
+     *
+     * @param healthCheckHandler
+     * @param list
+     */
     private void buildMysqlClientHealthcheck(HealthCheckHandler healthCheckHandler, List<Pool> list) {
         Healthcheck healthcheck = new MysqlClientHealthcheck(healthCheckHandler);
         for (int i = 0; i < list.size(); i++) {
@@ -288,6 +303,12 @@ public class HealthCheckBuilder {
         }
     }
 
+    /**
+     * 构建MysqlJdbc健康检测
+     *
+     * @param healthCheckHandler
+     * @param list
+     */
     private void buildMysqlJdbcHealthcheck(HealthCheckHandler healthCheckHandler, List<JDBCClient> list) {
         Healthcheck healthcheck = new MysqlJdbcHealthcheck(healthCheckHandler);
         for (int i = 0; i < list.size(); i++) {
@@ -295,6 +316,12 @@ public class HealthCheckBuilder {
         }
     }
 
+    /**
+     * 构建Redis健康检测
+     *
+     * @param healthCheckHandler
+     * @param list
+     */
     private void buildRedisHealthcheck(HealthCheckHandler healthCheckHandler, List<Redis> list) {
         Healthcheck healthcheck = new RedisHealthcheck(healthCheckHandler);
         for (int i = 0; i < list.size(); i++) {
@@ -302,6 +329,12 @@ public class HealthCheckBuilder {
         }
     }
 
+    /**
+     * 构建kafka健康检测
+     *
+     * @param healthCheckHandler
+     * @param list
+     */
     private void buildKafkaHealthcheck(HealthCheckHandler healthCheckHandler, List<KafkaProducer<?, ?>> list) {
         Healthcheck healthcheck = new KafkaHealthcheck(healthCheckHandler);
         for (int i = 0; i < list.size(); i++) {
@@ -309,24 +342,47 @@ public class HealthCheckBuilder {
         }
     }
 
+    /**
+     * 构建Eventbus健康检测
+     *
+     * @param healthCheckHandler
+     * @param vertx
+     */
     private void buildEventBusHealthcheck(HealthCheckHandler healthCheckHandler, Vertx vertx) {
         Healthcheck eventBusHealthcheck = new EventBusHealthcheck(healthCheckHandler);
         eventBusHealthcheck.check(vertx);
     }
 
+    /**
+     * 构建ServiceDiscovery EventbusService健康检测
+     *
+     * @param healthCheckHandler
+     * @param serviceDiscovery
+     */
     private void buildServiceDiscoveryEventbusServiceHealthcheck(HealthCheckHandler healthCheckHandler, ServiceDiscovery serviceDiscovery) {
         Healthcheck serviceDiscoveryEventbusServiceHealthcheck = new ServiceDiscoveryEventbusServiceHealthcheck(healthCheckHandler);
-        serviceDiscoveryEventbusServiceHealthcheck.check(serviceDiscovery, "EventbusService");
+        serviceDiscoveryEventbusServiceHealthcheck.check(serviceDiscovery, "vertxhealthcheckeventbusservice");
     }
 
-    private void buildServiceDiscoveryHttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler, List<HttpEndpointHealthCheck> serviceDiscoverys) {
+    /**
+     * 构建ServiceDiscovery HttpEndPoint健康检测
+     *
+     * @param healthCheckHandler
+     * @param httpEndpointServiceDiscovery
+     */
+    private void buildServiceDiscoveryHttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler, List<ServiceDiscovery> httpEndpointServiceDiscovery) {
         Healthcheck serviceDiscoveryHttpEndPointHealthcheck = new ServiceDiscoveryHttpEndPointHealthcheck(healthCheckHandler);
-        for (int i = 0; i < serviceDiscoverys.size(); i++) {
-            HttpEndpointHealthCheck httpEndpointHealthCheck =serviceDiscoverys.get(i);
-            serviceDiscoveryHttpEndPointHealthcheck.check(httpEndpointHealthCheck.getServiceDiscovery(), httpEndpointHealthCheck.getServiceName(), "HttpEndPoint." + i);
+        for (int i = 0; i < httpEndpointServiceDiscovery.size(); i++) {
+            serviceDiscoveryHttpEndPointHealthcheck.check(httpEndpointServiceDiscovery.get(i), "" + i);
         }
     }
 
+    /**
+     * 构建集群健康检测
+     *
+     * @param healthCheckHandler
+     * @param vertx
+     */
     private void buildClusterHealthcheck(HealthCheckHandler healthCheckHandler, Vertx vertx) {
         VertxInternal vertxInternal = (VertxInternal) vertx;
         ClusterManager clusterManager = vertxInternal.getClusterManager();
