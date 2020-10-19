@@ -22,9 +22,9 @@ public class EmailNoticeServiceImpl implements NoticeService {
     public void notice(JsonObject data) {
         MailMessage message = new MailMessage();
         message.setFrom(data.getString("from"));
-        message.setTo(data.getString("to"));
-        if (StringUtils.isNotBlank(data.getString("cc"))) {
-            message.setCc(data.getString("cc"));
+        message.setTo(data.getJsonArray("to").getList());
+        if (data.containsKey("cc")) {
+            message.setCc(data.getJsonArray("cc").getList());
         }
         message.setText(data.getString("text"));
         message.setHtml(data.getString("html"));
