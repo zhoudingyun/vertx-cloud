@@ -6,8 +6,6 @@ import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.impl.logging.Logger;
-import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.EventBusService;
@@ -17,7 +15,6 @@ import org.cloud.verx.starter.health.checkpoint.impl.EventBusServiceEndpointImpl
 @ProxyGen
 @VertxGen
 public interface EventBusServiceEndpoint {
-    Logger LOGGER = LoggerFactory.getLogger(EventBusServiceEndpoint.class);
     String ADDRESS = "/health/check/service/eventbusendpoint";
 
     static EventBusServiceEndpoint createProxyAndPublish(Vertx vertx, ServiceDiscovery discovery) {
@@ -27,10 +24,8 @@ public interface EventBusServiceEndpoint {
         Record record = EventBusService.createRecord(EventBusServiceEndpoint.class.getName(),
                 EventBusServiceEndpoint.ADDRESS, EventBusServiceEndpoint.class);
         discovery.publish(record, ar -> {
-            if (ar.succeeded()) {
-                LOGGER.info("\"" + record.getName() + "\" successfully published!");
-            } else {
-                LOGGER.error("\"" + record.getName() + "\" fail published!", ar.cause());
+            if (ar.failed()) {
+                throw new RuntimeException(record.getName() + "fail published!", ar.cause());
             }
         });
 

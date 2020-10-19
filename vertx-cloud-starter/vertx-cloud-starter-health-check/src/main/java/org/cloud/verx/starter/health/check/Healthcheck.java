@@ -23,6 +23,9 @@ public interface Healthcheck {
     default void check(ServiceDiscovery discovery, String registerName) {
     }
 
+    default void check(ServiceDiscovery discovery, String serviceName, String registerName) {
+    }
+
     default void check(Vertx vertx) {
     }
 

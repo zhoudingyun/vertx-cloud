@@ -16,15 +16,17 @@ import org.cloud.verx.starter.health.check.SubHealthcheck;
 
 public class ServiceDiscoveryHttpEndPointHealthcheck extends SubHealthcheck implements Healthcheck {
     private static final String PRE_REGISTER_NAME = "service.discovery";
-    private static final String SERVICE_NAME = "health.check.service.httpendpoint";
-    private static final JsonObject filter = new JsonObject().put("name", SERVICE_NAME);
 
     public ServiceDiscoveryHttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler) {
         super(healthCheckHandler);
     }
 
     @Override
-    public void check(ServiceDiscovery discovery, String registerName) {
+    public void check(ServiceDiscovery discovery, String serviceName, String registerName) {
+        JsonObject filter = new JsonObject().put("name", serviceName);
+        discovery.getRecords(new JsonObject()).onSuccess(records->{
+           System.out.println(records.size());
+        });
         healthCheckHandler.register(this.getRegisterName(registerName),
                 promise -> {
                     HttpEndpoint.getWebClient(discovery, filter, client -> {
