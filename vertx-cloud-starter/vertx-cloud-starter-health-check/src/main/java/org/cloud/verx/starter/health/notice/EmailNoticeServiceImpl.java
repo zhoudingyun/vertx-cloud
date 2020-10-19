@@ -1,5 +1,6 @@
 package org.cloud.verx.starter.health.notice;
 
+import io.netty.util.NetUtil;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
@@ -8,6 +9,7 @@ import io.vertx.ext.mail.MailClient;
 import io.vertx.ext.mail.MailConfig;
 import io.vertx.ext.mail.MailMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.cloud.verx.starter.health.util.IpUtils;
 
 public class EmailNoticeServiceImpl implements NoticeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailNoticeServiceImpl.class);
@@ -26,7 +28,8 @@ public class EmailNoticeServiceImpl implements NoticeService {
         if (data.containsKey("cc")) {
             message.setCc(data.getJsonArray("cc").getList());
         }
-        message.setSubject(data.getString("subject"));
+
+        message.setSubject(data.getString("subject") + " hostname：" + IpUtils.getLocalHost());
         message.setText(data.getString("text"));
         message.setHtml(data.getString("html"));
         mailClient.sendMail(message)
