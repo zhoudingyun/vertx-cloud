@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-cloud</artifactId>
+        <groupId>org.cloud.verx</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>vertx-cloud-starter</artifactId>
+    <name>Vert.x Cloud Starter</name>
+    <description>Vert.x Cloud Starter</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>vertx-cloud-starter-health-check</module>
+        <module>vertx-cloud-starter-web</module>
+        <module>vertx-cloud-starter-data</module>
+        <module>vertx-cloud-starter-data/vertx-cloud-starter-data-mysql</module>
+    </modules>
+
+</project>

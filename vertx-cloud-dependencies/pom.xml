@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-cloud</artifactId>
+        <groupId>org.cloud.verx</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>vertx-cloud-dependencies</artifactId>
+    <name>Vert.x Cloud Dependencies</name>
+    <description>Vert.x Cloud Dependencies</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!--vertx版本-->
+        <vertx.version>4.0.0.Beta3</vertx.version>
+        <!--************************************************集群依赖***************************************************-->
+        <!--vertx 普罗米修斯-->
+        <micrometer.version>1.1.0</micrometer.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--********************************************Core*****************************************************-->
+            <!--Vert.x Core-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Web***************************************************-->
+            <!--Vert.x Web-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Web Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Web Validation-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-validation</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Web OpenAPI-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-openapi</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Vert.x Web API Service-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-api-service</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--GraphQL-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web-graphql</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--********************************************Clustering***********************************************-->
+            <!--Hazelcast Clustering-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-hazelcast</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Infinispan Clustering-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-infinispan</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Apache Ignite Clustering-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-ignite</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--**********************************************Testing************************************************-->
+            <!--Vert.x JUnit 5-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-junit5</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Vert.x Unit-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-unit</artifactId>
+                <version>${vertx.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--**********************************************Standards**********************************************-->
+            <!--JSON Schema-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-json-schema</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--**************************************Authentication and authorization*******************************-->
+            <!--Auth common-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-common</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Oauth2 Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-oauth2</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--JWT Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-jwt</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Webauthn Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-webauthn</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--SQL Client Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-sql-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--MongoDB Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-mongo</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--LDAP Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-ldap</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--.htpasswd Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-htpasswd</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--.htdigest Auth-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-auth-htdigest</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Databases*********************************************-->
+            <!--PostgreSQL Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-pg-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--MySQL Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-mysql-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--SQL Client Templates-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-sql-client-templates</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--MongoDB Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-mongo-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Redis Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-redis-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Cassandra Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-cassandra-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--JDBC client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-jdbc-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Messaging**********************************************-->
+            <!--Kafka client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-kafka-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--AMQP Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-amqp-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--RabbitMQ Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-rabbitmq-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--MQTT-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-mqtt</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Integration*******************************************-->
+            <!--Mail Client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-mail-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--STOMP-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-stomp</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Consul client-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-consul-client</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Event bus bridges*************************************-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-tcp-eventbus-bridge</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-camel-bridge</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Monitoring********************************************-->
+            <!--Zipkin-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-zipkin</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--OpenTracing-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-opentracing</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Metrics using Dropwizard-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-dropwizard-metrics</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Metrics using Micrometer-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-micrometer-metrics</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-influx</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <!--Health Check-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-health-check</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Services**********************************************-->
+            <!--gRPC-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-grpc</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Service Proxies-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-service-proxy</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-codegen</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--SockJS Service Proxies-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-sockjs-service-proxy</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-service-factory</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Reactive**********************************************-->
+            <!--RxJava 2-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-rx-java2</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--RxJava 1-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-rx-java</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Reactive Streams-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-reactive-streams</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************Microservices*****************************************-->
+            <!--Service Discovery-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-service-discovery</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Config-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-config</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-config-yaml</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+            <!--Circuit Breaker-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-circuit-breaker</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************DevOps************************************************-->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-shell</artifactId>
+                <version>${vertx.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
