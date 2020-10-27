@@ -55,7 +55,7 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
         if (StringUtil.isNullOrEmpty(nodeName)) {
             JsonObject communalConfig = kafkaConfig.copy();
             communalConfig.remove("consumer");
-            return consumerConfig.mergeIn(kafkaConfig);
+            return consumerConfig.mergeIn(communalConfig);
         }
 
         JsonObject nodeConfig = consumerConfig.getJsonObject(nodeName, null);

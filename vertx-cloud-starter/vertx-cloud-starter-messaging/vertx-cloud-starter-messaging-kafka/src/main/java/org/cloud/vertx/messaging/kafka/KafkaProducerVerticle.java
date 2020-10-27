@@ -55,7 +55,7 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
         if (StringUtil.isNullOrEmpty(nodeName)) {
             JsonObject communalConfig = kafkaConfig.copy();
             communalConfig.remove("producer");
-            return producerConfig.mergeIn(kafkaConfig);
+            return producerConfig.mergeIn(communalConfig);
         }
 
         JsonObject nodeConfig = producerConfig.getJsonObject(nodeName, null);
