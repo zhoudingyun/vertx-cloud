@@ -53,7 +53,7 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
         }
 
         if (StringUtil.isNullOrEmpty(nodeName)) {
-            return producerConfig;
+            return producerConfig.mergeIn(kafkaConfig, true);
         }
 
         JsonObject nodeConfig = producerConfig.getJsonObject(nodeName, null);
