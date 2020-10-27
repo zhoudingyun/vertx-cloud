@@ -1,6 +1,5 @@
 package org.cloud.vertx.starter.health.notice;
 
-import io.netty.util.NetUtil;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
@@ -8,7 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mail.MailClient;
 import io.vertx.ext.mail.MailConfig;
 import io.vertx.ext.mail.MailMessage;
-import org.apache.commons.lang3.StringUtils;
 import org.cloud.vertx.starter.health.util.IpUtils;
 
 public class EmailNoticeServiceImpl implements NoticeService {

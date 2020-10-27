@@ -1,5 +1,6 @@
 package org.cloud.vertx.messaging.kafka;
 
+import io.netty.util.internal.StringUtil;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonObject;
@@ -14,6 +15,9 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumerVerticle.class);
     private String nodeName;
 
+    public <K, V> KafkaConsumerVerticle() {
+    }
+
     public <K, V> KafkaConsumerVerticle(String nodeName) {
         this.nodeName = nodeName;
     }
@@ -26,7 +30,11 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
             map.put(a.getKey(), a.getValue().toString());
         });
         KafkaConsumer<K, V> consumer = KafkaConsumer.create(vertx, map);
-        VertxBeanUtils.put(nodeName, consumer);
+        if (StringUtil.isNullOrEmpty(nodeName)) {
+            VertxBeanUtils.put(KafkaConsumer.class.getName(), consumer);
+        } else {
+            VertxBeanUtils.put(nodeName, consumer);
+        }
     }
 
     @Override
@@ -42,6 +50,10 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
         if (consumerConfig == null) {
             LOGGER.error(new RuntimeException("the property consumer is not configured, please check config.json."));
             System.exit(0);
+        }
+
+        if (StringUtil.isNullOrEmpty(nodeName)) {
+            return consumerConfig;
         }
 
         JsonObject nodeConfig = consumerConfig.getJsonObject(nodeName, null);

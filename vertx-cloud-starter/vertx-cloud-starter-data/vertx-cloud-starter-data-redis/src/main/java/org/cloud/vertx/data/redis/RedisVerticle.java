@@ -1,5 +1,6 @@
 package org.cloud.vertx.data.redis;
 
+import io.netty.util.internal.StringUtil;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonObject;
@@ -14,6 +15,9 @@ public class RedisVerticle extends VertxCloudDataVerticle {
 
     private String nodeName;
 
+    public RedisVerticle() {
+    }
+
     public RedisVerticle(String nodeName) {
         this.nodeName = nodeName;
     }
@@ -22,10 +26,18 @@ public class RedisVerticle extends VertxCloudDataVerticle {
     public void start() throws Exception {
         JsonObject redisConfig = verifyComponentConfig();
         Redis redis = Redis.createClient(vertx, new RedisOptions(redisConfig));
-        VertxBeanUtils.put(nodeName, redis);
+        if (StringUtil.isNullOrEmpty(nodeName)) {
+            VertxBeanUtils.put(Redis.class.getName(), redis);
+        } else {
+            VertxBeanUtils.put(nodeName, redis);
+        }
         redis.connect().onSuccess(ar -> {
             RedisAPI redisAPI = RedisAPI.api(ar);
-            VertxBeanUtils.put(nodeName, redisAPI);
+            if (StringUtil.isNullOrEmpty(nodeName)) {
+                VertxBeanUtils.put(RedisAPI.class.getName(), redis);
+            } else {
+                VertxBeanUtils.put(nodeName, redisAPI);
+            }
         }).onFailure(ex -> {
             LOGGER.error(ex);
         });
@@ -39,6 +51,10 @@ public class RedisVerticle extends VertxCloudDataVerticle {
         if (redisConfig == null) {
             LOGGER.error(new RuntimeException("the property redis is not configured, please check config.json."));
             System.exit(0);
+        }
+
+        if (StringUtil.isNullOrEmpty(nodeName)) {
+            return redisConfig;
         }
 
         JsonObject nodeConfig = redisConfig.getJsonObject(nodeName, null);

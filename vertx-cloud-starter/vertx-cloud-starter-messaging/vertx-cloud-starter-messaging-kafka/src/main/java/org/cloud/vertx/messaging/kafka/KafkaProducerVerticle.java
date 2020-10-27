@@ -1,5 +1,6 @@
 package org.cloud.vertx.messaging.kafka;
 
+import io.netty.util.internal.StringUtil;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonObject;
@@ -14,6 +15,9 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducerVerticle.class);
     private String nodeName;
 
+    public KafkaProducerVerticle() {
+    }
+
     public KafkaProducerVerticle(String nodeName) {
         this.nodeName = nodeName;
     }
@@ -26,7 +30,11 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
             map.put(a.getKey(), a.getValue().toString());
         });
         KafkaProducer<K, V> producer = KafkaProducer.create(vertx, map);
-        VertxBeanUtils.put(nodeName, producer);
+        if (StringUtil.isNullOrEmpty(nodeName)) {
+            VertxBeanUtils.put(KafkaProducer.class.getName(), producer);
+        } else {
+            VertxBeanUtils.put(nodeName, producer);
+        }
     }
 
     @Override
@@ -42,6 +50,10 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
         if (producerConfig == null) {
             LOGGER.error(new RuntimeException("the property producer is not configured, please check config.json."));
             System.exit(0);
+        }
+
+        if (StringUtil.isNullOrEmpty(nodeName)) {
+            return producerConfig;
         }
 
         JsonObject nodeConfig = producerConfig.getJsonObject(nodeName, null);
