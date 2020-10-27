@@ -53,7 +53,7 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
         }
 
         if (StringUtil.isNullOrEmpty(nodeName)) {
-            return consumerConfig.mergeIn(kafkaConfig, true);
+            return consumerConfig.mergeIn(kafkaConfig);
         }
 
         JsonObject nodeConfig = consumerConfig.getJsonObject(nodeName, null);
@@ -62,6 +62,6 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
             System.exit(0);
         }
 
-        return nodeConfig.mergeIn(consumerConfig, true).mergeIn(kafkaConfig, true);
+        return nodeConfig.mergeIn(consumerConfig).mergeIn(kafkaConfig);
     }
 }

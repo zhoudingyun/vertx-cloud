@@ -63,6 +63,6 @@ public class RedisVerticle extends VertxCloudDataVerticle {
             System.exit(0);
         }
 
-        return nodeConfig.mergeIn(redisConfig, true);
+        return nodeConfig.mergeIn(redisConfig);
     }
 }
