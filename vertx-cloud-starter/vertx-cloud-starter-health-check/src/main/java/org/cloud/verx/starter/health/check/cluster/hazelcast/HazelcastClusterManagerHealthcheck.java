@@ -1,6 +1,6 @@
-package org.cloud.verx.starter.health.check.cluster.hazelcast;
+package org.cloud.vertx.starter.health.check.cluster.hazelcast;
 
-import org.cloud.verx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.check.Healthcheck;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
@@ -10,7 +10,7 @@ import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.spi.cluster.hazelcast.impl.HazelcastNodeInfo;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 import java.util.List;
 

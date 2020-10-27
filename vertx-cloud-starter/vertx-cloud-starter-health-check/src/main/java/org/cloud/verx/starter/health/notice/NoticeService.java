@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.notice;
+package org.cloud.vertx.starter.health.notice;
 
 import io.vertx.core.json.JsonObject;
 

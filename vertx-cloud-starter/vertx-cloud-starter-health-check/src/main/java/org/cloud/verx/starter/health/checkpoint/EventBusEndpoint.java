@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.checkpoint;
+package org.cloud.vertx.starter.health.checkpoint;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.logging.Logger;

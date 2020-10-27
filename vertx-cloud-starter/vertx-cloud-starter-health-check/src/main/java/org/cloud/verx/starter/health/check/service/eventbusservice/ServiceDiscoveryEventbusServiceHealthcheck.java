@@ -1,12 +1,12 @@
-package org.cloud.verx.starter.health.check.service.eventbusservice;
+package org.cloud.vertx.starter.health.check.service.eventbusservice;
 
-import org.cloud.verx.starter.health.check.Healthcheck;
-import org.cloud.verx.starter.health.checkpoint.EventBusServiceEndpoint;
+import org.cloud.vertx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.checkpoint.EventBusServiceEndpoint;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.EventBusService;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 public class ServiceDiscoveryEventbusServiceHealthcheck extends SubHealthcheck implements Healthcheck {
     private static final String PRE_REGISTER_NAME = "service.discovery.eventbus-service";

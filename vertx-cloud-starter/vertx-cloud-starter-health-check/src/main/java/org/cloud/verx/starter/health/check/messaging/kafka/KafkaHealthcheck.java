@@ -1,10 +1,10 @@
-package org.cloud.verx.starter.health.check.messaging.kafka;
+package org.cloud.vertx.starter.health.check.messaging.kafka;
 
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.kafka.client.producer.KafkaProducer;
-import org.cloud.verx.starter.health.check.Healthcheck;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

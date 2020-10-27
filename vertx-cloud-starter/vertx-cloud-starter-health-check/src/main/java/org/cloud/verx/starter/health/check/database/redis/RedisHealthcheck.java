@@ -1,10 +1,10 @@
-package org.cloud.verx.starter.health.check.database.redis;
+package org.cloud.vertx.starter.health.check.database.redis;
 
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.redis.client.Redis;
-import org.cloud.verx.starter.health.check.Healthcheck;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 /**
  * redis健康检测

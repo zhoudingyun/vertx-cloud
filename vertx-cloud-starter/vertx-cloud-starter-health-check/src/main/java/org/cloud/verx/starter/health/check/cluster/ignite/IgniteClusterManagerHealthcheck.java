@@ -1,10 +1,10 @@
-package org.cloud.verx.starter.health.check.cluster.ignite;
+package org.cloud.vertx.starter.health.check.cluster.ignite;
 
-import org.cloud.verx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.check.Healthcheck;
 import io.vertx.core.Vertx;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 /**
  * mysql client健康检测

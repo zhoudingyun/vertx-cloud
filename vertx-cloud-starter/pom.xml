@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>vertx-cloud</artifactId>
-        <groupId>org.cloud.verx</groupId>
+        <groupId>org.cloud.vertx</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,6 +18,9 @@
         <module>vertx-cloud-starter-web</module>
         <module>vertx-cloud-starter-data</module>
         <module>vertx-cloud-starter-data/vertx-cloud-starter-data-mysql</module>
+        <module>vertx-cloud-starter-messaging</module>
+        <module>vertx-cloud-starter-messaging/vertx-cloud-starter-messaging-kafka</module>
+        <module>vertx-cloud-starter-data/vertx-cloud-starter-data-redis</module>
     </modules>
 
 </project>

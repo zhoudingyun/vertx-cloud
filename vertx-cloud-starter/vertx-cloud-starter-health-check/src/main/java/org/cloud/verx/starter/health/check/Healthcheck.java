@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.check;
+package org.cloud.vertx.starter.health.check;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.jdbc.JDBCClient;

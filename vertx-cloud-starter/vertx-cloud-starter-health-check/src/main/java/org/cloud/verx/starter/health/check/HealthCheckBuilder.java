@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.check;
+package org.cloud.vertx.starter.health.check;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.VertxInternal;
@@ -16,18 +16,18 @@ import io.vertx.servicediscovery.ServiceDiscoveryOptions;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import io.vertx.spi.cluster.ignite.IgniteClusterManager;
 import io.vertx.sqlclient.Pool;
-import org.cloud.verx.starter.health.check.cluster.hazelcast.HazelcastClusterManagerHealthcheck;
-import org.cloud.verx.starter.health.check.cluster.ignite.IgniteClusterManagerHealthcheck;
-import org.cloud.verx.starter.health.check.database.mysql.client.MysqlClientHealthcheck;
-import org.cloud.verx.starter.health.check.database.mysql.jdbc.MysqlJdbcHealthcheck;
-import org.cloud.verx.starter.health.check.database.redis.RedisHealthcheck;
-import org.cloud.verx.starter.health.check.eventbus.EventBusHealthcheck;
-import org.cloud.verx.starter.health.check.messaging.kafka.KafkaHealthcheck;
-import org.cloud.verx.starter.health.check.service.eventbusservice.ServiceDiscoveryEventbusServiceHealthcheck;
-import org.cloud.verx.starter.health.check.service.httpendpoint.ServiceDiscoveryHttpEndPointHealthcheck;
-import org.cloud.verx.starter.health.checkpoint.EventBusEndpoint;
-import org.cloud.verx.starter.health.checkpoint.EventBusServiceEndpoint;
-import org.cloud.verx.starter.health.checkpoint.HttpServiceEndpoint;
+import org.cloud.vertx.starter.health.check.cluster.hazelcast.HazelcastClusterManagerHealthcheck;
+import org.cloud.vertx.starter.health.check.cluster.ignite.IgniteClusterManagerHealthcheck;
+import org.cloud.vertx.starter.health.check.database.mysql.client.MysqlClientHealthcheck;
+import org.cloud.vertx.starter.health.check.database.mysql.jdbc.MysqlJdbcHealthcheck;
+import org.cloud.vertx.starter.health.check.database.redis.RedisHealthcheck;
+import org.cloud.vertx.starter.health.check.eventbus.EventBusHealthcheck;
+import org.cloud.vertx.starter.health.check.messaging.kafka.KafkaHealthcheck;
+import org.cloud.vertx.starter.health.check.service.eventbusservice.ServiceDiscoveryEventbusServiceHealthcheck;
+import org.cloud.vertx.starter.health.check.service.httpendpoint.ServiceDiscoveryHttpEndPointHealthcheck;
+import org.cloud.vertx.starter.health.checkpoint.EventBusEndpoint;
+import org.cloud.vertx.starter.health.checkpoint.EventBusServiceEndpoint;
+import org.cloud.vertx.starter.health.checkpoint.HttpServiceEndpoint;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-package org.cloud.verx.starter.health.check.service.httpendpoint;
+package org.cloud.vertx.starter.health.check.service.httpendpoint;
 
 import io.vertx.servicediscovery.Record;
-import org.cloud.verx.starter.health.checkpoint.HttpServiceEndpoint;
+import org.cloud.vertx.starter.health.checkpoint.HttpServiceEndpoint;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -12,8 +12,8 @@ import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.HttpEndpoint;
-import org.cloud.verx.starter.health.check.Healthcheck;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 public class ServiceDiscoveryHttpEndPointHealthcheck extends SubHealthcheck implements Healthcheck {
     private static final String PRE_REGISTER_NAME = "service.discovery.http-endpoint";

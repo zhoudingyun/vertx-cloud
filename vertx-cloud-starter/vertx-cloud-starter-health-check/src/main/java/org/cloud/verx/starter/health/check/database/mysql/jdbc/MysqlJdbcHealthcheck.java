@@ -1,10 +1,10 @@
-package org.cloud.verx.starter.health.check.database.mysql.jdbc;
+package org.cloud.vertx.starter.health.check.database.mysql.jdbc;
 
-import org.cloud.verx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.check.Healthcheck;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.ext.jdbc.JDBCClient;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 /**
  * mysql jdbc健康检测

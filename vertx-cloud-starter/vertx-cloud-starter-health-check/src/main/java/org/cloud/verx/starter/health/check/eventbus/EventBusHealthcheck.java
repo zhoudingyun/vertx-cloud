@@ -1,11 +1,11 @@
-package org.cloud.verx.starter.health.check.eventbus;
+package org.cloud.vertx.starter.health.check.eventbus;
 
-import org.cloud.verx.starter.health.check.Healthcheck;
-import org.cloud.verx.starter.health.checkpoint.EventBusEndpoint;
+import org.cloud.vertx.starter.health.check.Healthcheck;
+import org.cloud.vertx.starter.health.checkpoint.EventBusEndpoint;
 import io.vertx.core.Vertx;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
-import org.cloud.verx.starter.health.check.SubHealthcheck;
+import org.cloud.vertx.starter.health.check.SubHealthcheck;
 
 /**
  * EventBus健康检测

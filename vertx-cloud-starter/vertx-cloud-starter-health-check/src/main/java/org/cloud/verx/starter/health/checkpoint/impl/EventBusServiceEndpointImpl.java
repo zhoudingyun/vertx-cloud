@@ -1,6 +1,6 @@
-package org.cloud.verx.starter.health.checkpoint.impl;
+package org.cloud.vertx.starter.health.checkpoint.impl;
 
-import org.cloud.verx.starter.health.checkpoint.EventBusServiceEndpoint;
+import org.cloud.vertx.starter.health.checkpoint.EventBusServiceEndpoint;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;

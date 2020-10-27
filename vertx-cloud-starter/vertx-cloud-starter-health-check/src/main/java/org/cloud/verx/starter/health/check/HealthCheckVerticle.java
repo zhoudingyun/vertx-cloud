@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.check;
+package org.cloud.vertx.starter.health.check;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
@@ -9,8 +9,8 @@ import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.HealthChecks;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.ext.web.Router;
-import org.cloud.verx.starter.health.notice.EmailNoticeServiceImpl;
-import org.cloud.verx.starter.health.notice.NoticeService;
+import org.cloud.vertx.starter.health.notice.EmailNoticeServiceImpl;
+import org.cloud.vertx.starter.health.notice.NoticeService;
 
 import java.util.List;
 

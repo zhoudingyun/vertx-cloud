@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.checkpoint;
+package org.cloud.vertx.starter.health.checkpoint;
 
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;

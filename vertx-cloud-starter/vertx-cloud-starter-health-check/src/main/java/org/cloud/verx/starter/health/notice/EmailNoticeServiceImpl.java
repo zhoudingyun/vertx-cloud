@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.notice;
+package org.cloud.vertx.starter.health.notice;
 
 import io.netty.util.NetUtil;
 import io.vertx.core.Vertx;
@@ -9,7 +9,7 @@ import io.vertx.ext.mail.MailClient;
 import io.vertx.ext.mail.MailConfig;
 import io.vertx.ext.mail.MailMessage;
 import org.apache.commons.lang3.StringUtils;
-import org.cloud.verx.starter.health.util.IpUtils;
+import org.cloud.vertx.starter.health.util.IpUtils;
 
 public class EmailNoticeServiceImpl implements NoticeService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailNoticeServiceImpl.class);

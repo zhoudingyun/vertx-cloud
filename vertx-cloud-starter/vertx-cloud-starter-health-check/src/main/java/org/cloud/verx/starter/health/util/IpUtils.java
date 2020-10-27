@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.util;
+package org.cloud.vertx.starter.health.util;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

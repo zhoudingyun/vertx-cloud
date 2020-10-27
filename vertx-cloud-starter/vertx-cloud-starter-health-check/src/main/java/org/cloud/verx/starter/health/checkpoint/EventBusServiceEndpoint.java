@@ -1,4 +1,4 @@
-package org.cloud.verx.starter.health.checkpoint;
+package org.cloud.vertx.starter.health.checkpoint;
 
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.ProxyGen;
@@ -10,7 +10,7 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.EventBusService;
 import io.vertx.serviceproxy.ServiceBinder;
-import org.cloud.verx.starter.health.checkpoint.impl.EventBusServiceEndpointImpl;
+import org.cloud.vertx.starter.health.checkpoint.impl.EventBusServiceEndpointImpl;
 
 @ProxyGen
 @VertxGen
