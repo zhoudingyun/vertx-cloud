@@ -53,6 +53,8 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
         }
 
         if (StringUtil.isNullOrEmpty(nodeName)) {
+            JsonObject communalConfig = kafkaConfig.copy();
+            communalConfig.remove("producer");
             return producerConfig.mergeIn(kafkaConfig);
         }
 
@@ -62,6 +64,10 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
             System.exit(0);
         }
 
-        return nodeConfig.mergeIn(producerConfig).mergeIn(kafkaConfig);
+        JsonObject communalProducerConfig = producerConfig.copy();
+        communalProducerConfig.remove(nodeName);
+        JsonObject communalKafkaConfig = kafkaConfig.copy();
+        communalKafkaConfig.remove("producer");
+        return nodeConfig.mergeIn(communalProducerConfig).mergeIn(communalKafkaConfig);
     }
 }

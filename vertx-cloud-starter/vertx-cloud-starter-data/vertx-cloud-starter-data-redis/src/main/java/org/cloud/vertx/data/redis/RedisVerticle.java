@@ -63,6 +63,8 @@ public class RedisVerticle extends VertxCloudDataVerticle {
             System.exit(0);
         }
 
-        return nodeConfig.mergeIn(redisConfig);
+        JsonObject communalConfig = redisConfig.copy();
+        communalConfig.remove(nodeName);
+        return nodeConfig.mergeIn(communalConfig);
     }
 }
