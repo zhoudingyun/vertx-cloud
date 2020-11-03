@@ -24,8 +24,8 @@ import org.cloud.vertx.monitoring.healthcheck.check.database.mysql.jdbc.MysqlJdb
 import org.cloud.vertx.monitoring.healthcheck.check.database.redis.RedisHealthcheck;
 import org.cloud.vertx.monitoring.healthcheck.check.eventbus.EventBusHealthcheck;
 import org.cloud.vertx.monitoring.healthcheck.check.messaging.kafka.KafkaHealthcheck;
-import org.cloud.vertx.monitoring.healthcheck.check.service.eventbusservice.ServiceDiscoveryEventbusServiceHealthcheck;
-import org.cloud.vertx.monitoring.healthcheck.check.service.httpendpoint.ServiceDiscoveryHttpEndPointHealthcheck;
+import org.cloud.vertx.monitoring.healthcheck.check.service.eventbusservice.EventbusServiceHealthcheck;
+import org.cloud.vertx.monitoring.healthcheck.check.service.httpendpoint.HttpEndPointHealthcheck;
 import org.cloud.vertx.monitoring.healthcheck.checkpoint.EventBusEndpoint;
 import org.cloud.vertx.monitoring.healthcheck.checkpoint.EventBusServiceEndpoint;
 import org.cloud.vertx.monitoring.healthcheck.checkpoint.HttpServiceEndpoint;
@@ -361,7 +361,7 @@ public class HealthCheckBuilder {
      * @param serviceDiscovery
      */
     private void buildServiceDiscoveryEventbusServiceHealthcheck(HealthCheckHandler healthCheckHandler, ServiceDiscovery serviceDiscovery) {
-        Healthcheck serviceDiscoveryEventbusServiceHealthcheck = new ServiceDiscoveryEventbusServiceHealthcheck(healthCheckHandler);
+        Healthcheck serviceDiscoveryEventbusServiceHealthcheck = new EventbusServiceHealthcheck(healthCheckHandler);
         serviceDiscoveryEventbusServiceHealthcheck.check(serviceDiscovery, null);
     }
 
@@ -372,7 +372,7 @@ public class HealthCheckBuilder {
      * @param httpEndpointServiceDiscovery
      */
     private void buildServiceDiscoveryHttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler, List<ServiceDiscovery> httpEndpointServiceDiscovery) {
-        Healthcheck serviceDiscoveryHttpEndPointHealthcheck = new ServiceDiscoveryHttpEndPointHealthcheck(healthCheckHandler);
+        Healthcheck serviceDiscoveryHttpEndPointHealthcheck = new HttpEndPointHealthcheck(healthCheckHandler);
         for (int i = 0; i < httpEndpointServiceDiscovery.size(); i++) {
             serviceDiscoveryHttpEndPointHealthcheck.check(httpEndpointServiceDiscovery.get(i), "" + i);
         }
