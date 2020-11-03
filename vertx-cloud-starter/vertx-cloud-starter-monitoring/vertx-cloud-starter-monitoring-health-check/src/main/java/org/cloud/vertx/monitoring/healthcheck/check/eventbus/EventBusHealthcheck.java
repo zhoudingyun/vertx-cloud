@@ -21,7 +21,7 @@ public class EventBusHealthcheck extends SubHealthcheck implements Healthcheck {
 
     @Override
     public void check(Vertx vertx) {
-        healthCheckHandler.register(this.getRegisterName(EventBusEndpoint.ADDRESS),
+        healthCheckHandler.register(this.getRegisterName(null),
                 promise -> vertx.eventBus().request(EventBusEndpoint.ADDRESS, 1, reply -> {
                     if (reply.succeeded()) {
                         promise.complete(Status.OK());

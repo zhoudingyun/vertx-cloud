@@ -195,7 +195,7 @@ public class HealthCheckBuilder {
     private ServiceDiscovery createServiceDiscovery() {
         ServiceDiscoveryOptions serviceDiscoveryOptions = new ServiceDiscoveryOptions();
         serviceDiscoveryOptions.setAnnounceAddress("/");
-        serviceDiscoveryOptions.setName("vertxhealthcheckeventbusservice");
+        serviceDiscoveryOptions.setName(EventBusServiceEndpoint.NAME);
         return ServiceDiscovery.create(vertx, serviceDiscoveryOptions);
     }
 
@@ -362,7 +362,7 @@ public class HealthCheckBuilder {
      */
     private void buildServiceDiscoveryEventbusServiceHealthcheck(HealthCheckHandler healthCheckHandler, ServiceDiscovery serviceDiscovery) {
         Healthcheck serviceDiscoveryEventbusServiceHealthcheck = new ServiceDiscoveryEventbusServiceHealthcheck(healthCheckHandler);
-        serviceDiscoveryEventbusServiceHealthcheck.check(serviceDiscovery, "vertxhealthcheckeventbusservice");
+        serviceDiscoveryEventbusServiceHealthcheck.check(serviceDiscovery, null);
     }
 
     /**

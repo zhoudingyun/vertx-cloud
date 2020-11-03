@@ -16,7 +16,7 @@ import org.cloud.vertx.monitoring.healthcheck.checkpoint.impl.EventBusServiceEnd
 @VertxGen
 public interface EventBusServiceEndpoint {
     String ADDRESS = "/health/check/service/eventbusendpoint";
-
+    String NAME = "cluster_health_check";
     static EventBusServiceEndpoint createProxyAndPublish(Vertx vertx, ServiceDiscovery discovery) {
         EventBusServiceEndpoint eventBusServiceEndpoint = new EventBusServiceEndpointImpl();
         new ServiceBinder(vertx).setAddress(ADDRESS).register(EventBusServiceEndpoint.class, eventBusServiceEndpoint);
