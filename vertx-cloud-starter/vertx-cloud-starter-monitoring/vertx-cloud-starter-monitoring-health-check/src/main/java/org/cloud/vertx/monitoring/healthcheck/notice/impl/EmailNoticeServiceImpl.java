@@ -33,7 +33,6 @@ public class EmailNoticeServiceImpl implements NoticeService {
         }
 
         message.setSubject(data.getString("subject") + " hostname：" + data.getString("hostname"));
-        message.setText(data.getString("text"));
         message.setHtml(data.getString("html"));
         mailClient.sendMail(message)
                 .onFailure(e -> {
