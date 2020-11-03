@@ -9,7 +9,6 @@ import io.vertx.ext.healthchecks.HealthChecks;
 import io.vertx.ext.web.Router;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
 import io.vertx.kafka.client.producer.KafkaProducer;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.cloud.vertx.core.util.VertxBeanUtils;
 import org.cloud.vertx.core.verticle.VertxCloudMonitoringVerticle;
 import org.cloud.vertx.monitoring.healthcheck.notice.NoticeService;
@@ -86,6 +85,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                     if ("DOWN".equals(jsonObject.getString("status"))) {
                         String hostname = IpUtils.getLocalHost();
                         jsonObject.put("hostname", hostname);
+                        jsonObject.put("vertx.application.name", applicationConfig.getString("name"));
                         noticeService.notice(jsonObject);
                     }
                 });
@@ -101,6 +101,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                     if ("DOWN".equals(jsonObject.getString("status"))) {
                         String hostname = IpUtils.getLocalHost();
                         emailConfig.put("hostname", hostname);
+                        emailConfig.put("vertx.application.name", applicationConfig.getString("name"));
                         noticeService.notice(emailConfig.put("html", jsonObject.toString()));
                     }
                 });
@@ -129,7 +130,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                     consumer.handler(record -> {
                         try {
                             JsonObject jsonObject = new JsonObject(record.value());
-                            emailConfig.put("hostname", jsonObject.getString("hostname"));
+                            emailConfig.put("vertx.application.name", jsonObject.getString("vertx.application.name"));
                             noticeService.notice(emailConfig.put("html", jsonObject.toString()));
                         } catch (Exception e) {
                             LOGGER.error(record.value(), e);

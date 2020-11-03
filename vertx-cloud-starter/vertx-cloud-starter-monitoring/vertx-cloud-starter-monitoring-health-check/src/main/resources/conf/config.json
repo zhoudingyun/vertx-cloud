@@ -6,6 +6,9 @@
         "instances": 4
       }
     },
+    "application": {
+      "name": ""
+    },
     "cloud": {
       "clustering": {
         "config": "/mnt/data/third-party/config/cluster.xml"

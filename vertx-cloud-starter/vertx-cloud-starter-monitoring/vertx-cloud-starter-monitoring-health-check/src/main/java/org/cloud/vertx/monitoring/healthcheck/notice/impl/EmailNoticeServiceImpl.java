@@ -1,5 +1,6 @@
 package org.cloud.vertx.monitoring.healthcheck.notice.impl;
 
+import io.netty.util.internal.StringUtil;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
@@ -32,7 +33,11 @@ public class EmailNoticeServiceImpl implements NoticeService {
             message.setCc(data.getJsonArray("cc").getList());
         }
 
-        message.setSubject(data.getString("subject") + " hostname：" + data.getString("hostname"));
+        String subject = data.getString("vertx.application.name");
+        if (StringUtil.isNullOrEmpty(subject)) {
+            subject = data.getString("subject");
+        }
+        message.setSubject(subject + " hostname:" + data.getString("hostname"));
         message.setHtml(data.getString("html"));
         mailClient.sendMail(message)
                 .onFailure(e -> {

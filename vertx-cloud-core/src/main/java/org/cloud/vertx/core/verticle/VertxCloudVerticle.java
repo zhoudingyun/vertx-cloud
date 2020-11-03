@@ -7,18 +7,28 @@ import io.vertx.core.json.JsonObject;
 
 public abstract class VertxCloudVerticle extends AbstractVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(VertxCloudVerticle.class);
+    protected JsonObject vertxConfig;
+    protected JsonObject applicationConfig;
     protected JsonObject cloudConfig;
 
     protected JsonObject verifyCloudConfig() {
         JsonObject config = config();
-        JsonObject vertxConfig = config.getJsonObject("vertx", null);
+
+        vertxConfig = config.getJsonObject("vertx", null);
         if (vertxConfig == null) {
             LOGGER.error(new RuntimeException("the property vertx is not configured, please check config.json."));
             System.exit(0);
         }
+
+        applicationConfig = vertxConfig.getJsonObject("application", null);
+        if (applicationConfig == null) {
+            LOGGER.error(new RuntimeException("the property vertx.application is not configured, please check config.json."));
+            System.exit(0);
+        }
+
         cloudConfig = vertxConfig.getJsonObject("cloud", null);
         if (cloudConfig == null) {
-            LOGGER.error(new RuntimeException("the property cloud is not configured, please check config.json."));
+            LOGGER.error(new RuntimeException("the property vertx.cloud is not configured, please check config.json."));
             System.exit(0);
         }
 
