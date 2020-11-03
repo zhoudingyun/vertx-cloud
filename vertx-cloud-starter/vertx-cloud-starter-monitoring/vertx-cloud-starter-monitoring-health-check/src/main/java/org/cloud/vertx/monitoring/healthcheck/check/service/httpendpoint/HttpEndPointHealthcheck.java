@@ -15,10 +15,10 @@ import io.vertx.servicediscovery.types.HttpEndpoint;
 import org.cloud.vertx.monitoring.healthcheck.check.Healthcheck;
 import org.cloud.vertx.monitoring.healthcheck.check.SubHealthcheck;
 
-public class ServiceDiscoveryHttpEndPointHealthcheck extends SubHealthcheck implements Healthcheck {
+public class HttpEndPointHealthcheck extends SubHealthcheck implements Healthcheck {
     private static final String PRE_REGISTER_NAME = "service.discovery.http-endpoint";
 
-    public ServiceDiscoveryHttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler) {
+    public HttpEndPointHealthcheck(HealthCheckHandler healthCheckHandler) {
         super(healthCheckHandler);
     }
 
