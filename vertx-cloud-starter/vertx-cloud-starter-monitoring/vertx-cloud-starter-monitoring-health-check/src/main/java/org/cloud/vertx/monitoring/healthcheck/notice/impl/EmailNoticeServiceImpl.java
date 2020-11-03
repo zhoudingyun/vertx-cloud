@@ -8,7 +8,6 @@ import io.vertx.ext.mail.MailClient;
 import io.vertx.ext.mail.MailConfig;
 import io.vertx.ext.mail.MailMessage;
 import org.cloud.vertx.monitoring.healthcheck.notice.NoticeService;
-import org.cloud.vertx.monitoring.healthcheck.util.IpUtils;
 
 /**
  * 健康检测邮件通知
@@ -33,7 +32,7 @@ public class EmailNoticeServiceImpl implements NoticeService {
             message.setCc(data.getJsonArray("cc").getList());
         }
 
-        message.setSubject(data.getString("subject") + " hostname：" + IpUtils.getLocalHost());
+        message.setSubject(data.getString("subject") + " hostname：" + data.getString("hostname"));
         message.setText(data.getString("text"));
         message.setHtml(data.getString("html"));
         mailClient.sendMail(message)

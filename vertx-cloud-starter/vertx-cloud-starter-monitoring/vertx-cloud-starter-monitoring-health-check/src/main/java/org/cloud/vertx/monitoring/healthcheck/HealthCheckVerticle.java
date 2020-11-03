@@ -14,6 +14,8 @@ import org.cloud.vertx.core.util.VertxBeanUtils;
 import org.cloud.vertx.core.verticle.VertxCloudMonitoringVerticle;
 import org.cloud.vertx.monitoring.healthcheck.notice.NoticeService;
 import org.cloud.vertx.monitoring.healthcheck.notice.impl.EmailNoticeServiceImpl;
+import org.cloud.vertx.monitoring.healthcheck.notice.impl.MqNoticeServiceImpl;
+import org.cloud.vertx.monitoring.healthcheck.util.IpUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,13 +79,14 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
             if (StringUtil.isNullOrEmpty(topic)) {
                 LOGGER.error(new RuntimeException("Please configure the vertx.cloud.monitoring.health_check.messaging.topic in config.json"));
             }
-
+            NoticeService noticeService = new MqNoticeServiceImpl(topic, producer);
             vertx.setPeriodic(periodic, aLong -> {
                 vertx.eventBus().<JsonObject>request("vertx.cloud.health", "", reply -> {
                     JsonObject jsonObject = reply.result().body();
                     if ("DOWN".equals(jsonObject.getString("status"))) {
-                        KafkaProducerRecord<String, String> record = KafkaProducerRecord.create(topic, jsonObject.toString());
-                        producer.write(record);
+                        String hostname = IpUtils.getLocalHost();
+                        jsonObject.put("hostname", hostname);
+                        noticeService.notice(jsonObject);
                     }
                 });
             });
@@ -96,6 +99,8 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                 vertx.eventBus().<JsonObject>request("vertx.cloud.health", "", reply -> {
                     JsonObject jsonObject = reply.result().body();
                     if ("DOWN".equals(jsonObject.getString("status"))) {
+                        String hostname = IpUtils.getLocalHost();
+                        emailConfig.put("hostname", hostname);
                         noticeService.notice(emailConfig.put("html", jsonObject.toString()));
                     }
                 });
@@ -123,7 +128,9 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                     NoticeService noticeService = new EmailNoticeServiceImpl(vertx, emailConfig);
                     consumer.handler(record -> {
                         try {
-                            noticeService.notice(emailConfig.put("html", record.value()));
+                            JsonObject jsonObject = new JsonObject(record.value());
+                            emailConfig.put("hostname", jsonObject.getString("hostname"));
+                            noticeService.notice(emailConfig.put("html", jsonObject.toString()));
                         } catch (Exception e) {
                             LOGGER.error(record.value(), e);
                         }
