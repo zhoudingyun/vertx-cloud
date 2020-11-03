@@ -29,7 +29,6 @@ import org.cloud.vertx.monitoring.healthcheck.check.service.httpendpoint.Service
 import org.cloud.vertx.monitoring.healthcheck.checkpoint.EventBusEndpoint;
 import org.cloud.vertx.monitoring.healthcheck.checkpoint.EventBusServiceEndpoint;
 import org.cloud.vertx.monitoring.healthcheck.checkpoint.HttpServiceEndpoint;
-import org.cloud.vertx.monitoring.healthcheck.notice.NoticeService;
 
 import java.util.ArrayList;
 import java.util.List;
