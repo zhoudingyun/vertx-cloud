@@ -1,0 +1,62 @@
+{
+  "vertx": {
+    "deployment": {
+      "options": {
+        "workerPoolName": "vertx-deployment-worker",
+        "instances": 4
+      }
+    },
+    "cloud": {
+      "clustering": {
+        "config": "/mnt/data/third-party/config/cluster.xml"
+      },
+      "messaging": {
+        "kafka": {
+          "bootstrap.servers": "172.16.0.226:9092,172.16.0.157:9092,172.16.0.230:9092",
+          "producer": {
+            "key.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+            "value.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+            "acks": "0",
+            "producer_health_check": {
+              "acks": "1"
+            }
+          },
+          "consumer": {
+            "consumer_health_check": {
+              "group.id": "health_check"
+            }
+          }
+        }
+      },
+      "data": {
+        "redis": {
+          "maxPoolSize": 20,
+          "connectionString": "redis://172.16.0.72:6379/0",
+          "password": "narwal@80#$eiu"
+        }
+      },
+      "monitoring": {
+        "health_check": {
+          "periodic": 30000,
+          "messaging": {
+            "topic": "health_check_topic",
+            "producer": "producer_health_check",
+            "consumer": "consumer_health_check"
+          },
+          "email": {
+            "hostname": "smtp.qiye.aliyun.com",
+            "port": 25,
+            "username": "kun@narwel.com",
+            "password": "Narwel123",
+            "from": "kun@narwel.com",
+            "to": [
+              "dingyun.zhou@narwel.com",
+              "zhonghong.duan@narwel.com"
+            ],
+            "subject": "Kun Rest Server Warn!"
+          }
+        }
+      }
+    }
+  }
+}

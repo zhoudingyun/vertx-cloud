@@ -14,13 +14,10 @@
     <description>Vert.x Cloud Starter</description>
     <packaging>pom</packaging>
     <modules>
-        <module>vertx-cloud-starter-health-check</module>
         <module>vertx-cloud-starter-web</module>
         <module>vertx-cloud-starter-data</module>
-        <module>vertx-cloud-starter-data/vertx-cloud-starter-data-mysql</module>
         <module>vertx-cloud-starter-messaging</module>
-        <module>vertx-cloud-starter-messaging/vertx-cloud-starter-messaging-kafka</module>
-        <module>vertx-cloud-starter-data/vertx-cloud-starter-data-redis</module>
+        <module>vertx-cloud-starter-monitoring</module>
     </modules>
 
 </project>

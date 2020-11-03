@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 
 public abstract class VertxCloudMessagingVerticle extends VertxCloudVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(VertxCloudMessagingVerticle.class);
-    protected JsonObject cloudConfig;
     protected JsonObject verifyCloudMessagingConfig() {
         JsonObject cloudConfig = verifyCloudConfig();
 
