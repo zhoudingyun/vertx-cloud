@@ -31,7 +31,7 @@ public class KafkaProducerVerticle<K, V> extends VertxCloudMessagingVerticle {
         });
         KafkaProducer<K, V> producer = KafkaProducer.create(vertx, map);
         if (StringUtil.isNullOrEmpty(nodeName)) {
-            VertxBeanUtils.put(KafkaProducer.class.getName(), producer);
+            VertxBeanUtils.put(KafkaProducer.class, producer);
         } else {
             VertxBeanUtils.put(nodeName, producer);
         }

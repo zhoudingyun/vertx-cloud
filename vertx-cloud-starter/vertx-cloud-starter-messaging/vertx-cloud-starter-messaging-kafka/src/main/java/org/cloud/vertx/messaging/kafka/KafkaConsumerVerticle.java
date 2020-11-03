@@ -31,7 +31,7 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
         });
         KafkaConsumer<K, V> consumer = KafkaConsumer.create(vertx, map);
         if (StringUtil.isNullOrEmpty(nodeName)) {
-            VertxBeanUtils.put(KafkaConsumer.class.getName(), consumer);
+            VertxBeanUtils.put(KafkaConsumer.class, consumer);
         } else {
             VertxBeanUtils.put(nodeName, consumer);
         }
