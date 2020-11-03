@@ -4,7 +4,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 
 public class HttpServiceEndpoint {
-    public static final String PATH = "/health/check/service/httpendpoint";
+    public static final String PATH = "/service/discovery/health/check/httpendpoint";
 
     public HttpServiceEndpoint(Router router) {
         router.get(PATH).handler(this::endpoint);
