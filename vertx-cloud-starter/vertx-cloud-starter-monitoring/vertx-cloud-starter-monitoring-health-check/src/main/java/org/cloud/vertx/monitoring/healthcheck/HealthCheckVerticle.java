@@ -66,11 +66,15 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
         vertx.eventBus().consumer("vertx.cloud.health", message -> healthChecks.invoke(message::reply));
 
         // The default detection cycle is 10000ms
-        int periodic = healthCheckConfig.getInteger("periodic", 10000);
+        long periodic = healthCheckConfig.getLong("periodic", 10000l);
         if (healthCheckConfig.containsKey("messaging")) {
             // send by mq
             JsonObject messagingConfig = healthCheckConfig.getJsonObject("messaging");
-            KafkaProducer<String, String> producer = VertxBeanUtils.get(messagingConfig.getString("producer"));
+            KafkaProducer<String, String> producer = VertxBeanUtils.get(KafkaProducer.class);
+            if (producer == null) {
+                producer = VertxBeanUtils.get(messagingConfig.getString("producer"));
+            }
+
             if (producer == null) {
                 LOGGER.error(new RuntimeException("Please configure the vertx.cloud.monitoring.health_check.messaging.producer in config.json"));
             }
@@ -111,15 +115,16 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
         if (healthCheckConfig.containsKey("messaging")) {
             JsonObject messagingConfig = healthCheckConfig.getJsonObject("messaging");
             KafkaConsumer<String, String> consumer = VertxBeanUtils.get(messagingConfig.getString("consumer"));
-            if (consumer == null) {
-                LOGGER.error(new RuntimeException("Please configure the vertx.cloud.monitoring.health_check.messaging.consumer in config.json"));
-            }
             String topic = messagingConfig.getString("topic");
-            if (StringUtil.isNullOrEmpty(topic)) {
-                LOGGER.error(new RuntimeException("Please configure the vertx.cloud.monitoring.health_check.messaging.topic in config.json"));
+            if (consumer == null) {
+                LOGGER.warn("The configuration file is missing a consumer, please configure the vertx.cloud.monitoring.health_check.messaging.consumer in config.json if you need to notify.");
+            } else {
+                if (StringUtil.isNullOrEmpty(topic)) {
+                    LOGGER.error(new RuntimeException("Please configure the vertx.cloud.monitoring.health_check.messaging.topic in config.json"));
+                }
             }
 
-            if (healthCheckConfig.containsKey("email")) {
+            if (healthCheckConfig.containsKey("email") &&  consumer != null) {
                 Set<String> set = new HashSet<>();
                 set.add(topic);
                 consumer.subscribe(set);
