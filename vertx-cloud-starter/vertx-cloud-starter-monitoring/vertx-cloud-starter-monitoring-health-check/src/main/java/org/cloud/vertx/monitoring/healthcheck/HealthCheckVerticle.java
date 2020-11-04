@@ -87,8 +87,8 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                 vertx.eventBus().<JsonObject>request("vertx.cloud.health", "", reply -> {
                     JsonObject jsonObject = reply.result().body();
                     if ("DOWN".equals(jsonObject.getString("status"))) {
-                        String hostname = IpUtils.getLocalHost();
-                        jsonObject.put("hostname", hostname);
+                        String ip = IpUtils.getLocalHost();
+                        jsonObject.put("ip", ip);
                         jsonObject.put("vertx.application.name", applicationConfig.getString("name"));
                         noticeService.notice(jsonObject);
                     }
@@ -103,8 +103,8 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                 vertx.eventBus().<JsonObject>request("vertx.cloud.health", "", reply -> {
                     JsonObject jsonObject = reply.result().body();
                     if ("DOWN".equals(jsonObject.getString("status"))) {
-                        String hostname = IpUtils.getLocalHost();
-                        emailConfig.put("hostname", hostname);
+                        String ip = IpUtils.getLocalHost();
+                        emailConfig.put("ip", ip);
                         emailConfig.put("vertx.application.name", applicationConfig.getString("name"));
                         noticeService.notice(emailConfig.put("html", jsonObject.toString()));
                     }
@@ -124,7 +124,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                 }
             }
 
-            if (healthCheckConfig.containsKey("email") &&  consumer != null) {
+            if (healthCheckConfig.containsKey("email") && consumer != null) {
                 Set<String> set = new HashSet<>();
                 set.add(topic);
                 consumer.subscribe(set);
@@ -135,7 +135,10 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                     consumer.handler(record -> {
                         try {
                             JsonObject jsonObject = new JsonObject(record.value());
+                            emailConfig.put("ip", jsonObject.getString("ip"));
                             emailConfig.put("vertx.application.name", jsonObject.getString("vertx.application.name"));
+                            jsonObject.remove("ip");
+                            jsonObject.remove("vertx.application.name");
                             noticeService.notice(emailConfig.put("html", jsonObject.toString()));
                         } catch (Exception e) {
                             LOGGER.error(record.value(), e);

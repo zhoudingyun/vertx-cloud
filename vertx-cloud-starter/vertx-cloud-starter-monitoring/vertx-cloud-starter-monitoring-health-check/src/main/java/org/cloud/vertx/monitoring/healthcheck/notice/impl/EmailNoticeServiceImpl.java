@@ -37,7 +37,7 @@ public class EmailNoticeServiceImpl implements NoticeService {
         if (StringUtil.isNullOrEmpty(subject)) {
             subject = data.getString("subject");
         }
-        message.setSubject(subject + " hostname:" + data.getString("hostname"));
+        message.setSubject(subject + ",ip:" + data.getString("ip"));
         message.setHtml(data.getString("html"));
         mailClient.sendMail(message)
                 .onFailure(e -> {
