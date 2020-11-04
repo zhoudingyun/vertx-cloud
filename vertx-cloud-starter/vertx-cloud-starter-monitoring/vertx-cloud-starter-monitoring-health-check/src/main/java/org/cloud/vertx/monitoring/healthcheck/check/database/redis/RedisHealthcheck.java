@@ -3,6 +3,7 @@ package org.cloud.vertx.monitoring.healthcheck.check.database.redis;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.redis.client.Redis;
+import io.vertx.redis.client.RedisConnection;
 import org.cloud.vertx.monitoring.healthcheck.check.Healthcheck;
 import org.cloud.vertx.monitoring.healthcheck.check.SubHealthcheck;
 
@@ -22,9 +23,14 @@ public class RedisHealthcheck extends SubHealthcheck implements Healthcheck {
     public void check(Redis redis, String registerName) {
         healthCheckHandler.register(this.getRegisterName(registerName),
                 promise -> redis.connect(connection -> {
+                    RedisConnection redisConnection = connection.result();
                     if (connection.failed()) {
+                        if (redisConnection != null) {
+                            redisConnection.close();
+                        }
                         promise.fail(connection.cause());
                     } else {
+                        redisConnection.close();
                         promise.complete(Status.OK());
                     }
                 }));

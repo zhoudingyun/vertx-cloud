@@ -12,7 +12,7 @@ public abstract class VertxCloudMessagingVerticle extends VertxCloudVerticle {
         JsonObject messagingConfig = cloudConfig.getJsonObject("messaging", null);
         if (messagingConfig == null) {
             LOGGER.error(new RuntimeException("the property messaging is not configured, please check config.json."));
-            System.exit(0);
+            System.exit(1);
         }
 
         return messagingConfig;

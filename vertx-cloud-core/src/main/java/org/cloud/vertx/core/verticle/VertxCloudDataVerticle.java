@@ -13,7 +13,7 @@ public abstract class VertxCloudDataVerticle extends VertxCloudVerticle {
         JsonObject dataConfig = cloudConfig.getJsonObject("data", null);
         if (dataConfig == null) {
             LOGGER.error(new RuntimeException("the property data is not configured, please check config.json."));
-            System.exit(0);
+            System.exit(1);
         }
 
         return dataConfig;

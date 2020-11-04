@@ -19,7 +19,7 @@ public class VertxCloudMonitoringVerticle extends VertxCloudVerticle {
         JsonObject monitoringConfig = cloudConfig.getJsonObject("monitoring", null);
         if (monitoringConfig == null) {
             LOGGER.error(new RuntimeException("the property monitoring is not configured, please check config.json."));
-            System.exit(0);
+            System.exit(1);
         }
 
         return monitoringConfig;

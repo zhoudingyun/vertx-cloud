@@ -39,7 +39,7 @@ public class RedisVerticle extends VertxCloudDataVerticle {
         JsonObject redisConfig = dataConfig.getJsonObject("redis", null);
         if (redisConfig == null) {
             LOGGER.error(new RuntimeException("the property redis is not configured, please check config.json."));
-            System.exit(0);
+            System.exit(1);
         }
 
         if (StringUtil.isNullOrEmpty(nodeName)) {
@@ -49,7 +49,7 @@ public class RedisVerticle extends VertxCloudDataVerticle {
         JsonObject nodeConfig = redisConfig.getJsonObject(nodeName, null);
         if (nodeConfig == null) {
             LOGGER.error(new RuntimeException("the property " + nodeConfig + " is not configured, please check config.json."));
-            System.exit(0);
+            System.exit(1);
         }
 
         JsonObject communalConfig = redisConfig.copy();

@@ -42,7 +42,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
     public void start() throws Exception {
         if (builder == null) {
             LOGGER.error(new NullPointerException("the builder is null"));
-            System.exit(0);
+            System.exit(1);
         }
         HealthChecks healthChecks = HealthChecks.create(vertx);
         HealthCheckHandler healthCheckHandler = HealthCheckHandler.createWithHealthChecks(healthChecks);
@@ -60,7 +60,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
         // check health check config
         if (healthCheckConfig == null) {
             LOGGER.error(new RuntimeException("the property health_check is not configured, please check config.json."));
-            System.exit(0);
+            System.exit(1);
         }
 
         vertx.eventBus().consumer("vertx.cloud.health", message -> healthChecks.invoke(message::reply));
