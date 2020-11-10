@@ -13,7 +13,20 @@
         <module>vertx-cloud-dependencies</module>
         <module>vertx-cloud-starter</module>
         <module>vertx-cloud-core</module>
+        <module>vertx-project</module>
+        <module>vertx-cloud-example</module>
     </modules>
 
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>maven-narwal-snapshots</id>
+            <name>maven-narwal-snapshots</name>
+            <url>http://124.71.112.81:8081/repository/maven-narwal-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>maven-narwal-releases</id>
+            <name>maven-narwal-releases</name>
+            <url>http://124.71.112.81:8081/repository/maven-narwal-releases/</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -20,18 +20,24 @@ public class VertxBeanUtils {
     }
 
     public static <K> void remove(K name) {
-        Objects.requireNonNull(name);
-        INSTANCES.remove(name);
+        if (name != null) {
+            INSTANCES.remove(name);
+        }
     }
 
     public static <K, V> V get(K name) {
-        Objects.requireNonNull(name);
+        if (name == null) {
+            return null;
+        }
+
         return (V) INSTANCES.get(name);
     }
 
     public static <K, V> V getOrDefault(K name, V instance) {
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(instance);
+        if (name == null) {
+            return null;
+        }
+
         return (V) INSTANCES.getOrDefault(name, instance);
     }
 }
