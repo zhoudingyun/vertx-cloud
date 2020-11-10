@@ -4,7 +4,6 @@ import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisAPI;
-import io.vertx.redis.client.RedisConnection;
 import org.cloud.vertx.monitoring.healthcheck.check.Healthcheck;
 import org.cloud.vertx.monitoring.healthcheck.check.SubHealthcheck;
 
