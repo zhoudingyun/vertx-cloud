@@ -26,7 +26,6 @@ public class RedisHealthcheck extends SubHealthcheck implements Healthcheck {
     public void check(Redis redis, String registerName) {
         healthCheckHandler.register(this.getRegisterName(registerName),
                 promise -> {
-                    redis.connect().
                     RedisAPI.api(redis).set(Arrays.asList("vertx:cloud:monitoring:healthcheck", "1")).onSuccess(response -> {
                         promise.complete(Status.OK());
                     }).onFailure(throwable -> {
