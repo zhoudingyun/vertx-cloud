@@ -5,8 +5,8 @@ import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Redis;
-import io.vertx.redis.client.RedisOptions;
-import org.cloud.vertx.core.util.VertxBeanUtils;
+import io.vertx.servicediscovery.Record;
+import io.vertx.servicediscovery.types.RedisDataSource;
 import org.cloud.vertx.core.verticle.VertxCloudDataVerticle;
 
 public class RedisVerticle extends VertxCloudDataVerticle {
@@ -24,12 +24,22 @@ public class RedisVerticle extends VertxCloudDataVerticle {
     @Override
     public void start() throws Exception {
         JsonObject redisConfig = verifyComponentConfig();
-        Redis redis = Redis.createClient(vertx, new RedisOptions(redisConfig));
+        Record record = null;
         if (StringUtil.isNullOrEmpty(nodeName)) {
-            VertxBeanUtils.put(Redis.class, redis);
+            record = RedisDataSource.createRecord(
+                    Redis.class.getName(),
+                    redisConfig,
+                    redisConfig
+            );
         } else {
-            VertxBeanUtils.put(nodeName, redis);
+            record = RedisDataSource.createRecord(
+                    nodeName,
+                    redisConfig,
+                    redisConfig
+            );
         }
+
+        this.getServiceDiscovery().publish(record);
     }
 
     @Override
