@@ -10,7 +10,7 @@ public class VertxBeanUtils {
     public static <K, V> void put(K name, V instance) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(instance);
-        INSTANCES.put(name, instance);
+        INSTANCES.putIfAbsent(name, instance);
     }
 
     public static <K, V> void putIfAbsent(K name, V instance) {

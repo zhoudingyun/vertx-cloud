@@ -1,0 +1,11 @@
+{
+  "vertx": {
+    "cloud": {
+      "data": {
+        "redis": {
+          "connectionString": "redis://localhost:6379/0"
+        }
+      }
+    }
+  }
+}

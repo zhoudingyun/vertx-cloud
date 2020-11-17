@@ -1,9 +1,11 @@
 package org.cloud.vertx.monitoring.healthcheck.check.database.redis;
 
+import io.vertx.core.Promise;
 import io.vertx.ext.healthchecks.HealthCheckHandler;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisAPI;
+import io.vertx.redis.client.impl.RedisStandaloneConnection;
 import org.cloud.vertx.monitoring.healthcheck.check.Healthcheck;
 import org.cloud.vertx.monitoring.healthcheck.check.SubHealthcheck;
 
@@ -25,9 +27,11 @@ public class RedisHealthcheck extends SubHealthcheck implements Healthcheck {
     public void check(Redis redis, String registerName) {
         healthCheckHandler.register(this.getRegisterName(registerName),
                 promise -> {
-                    RedisAPI.api(redis).set(Arrays.asList("vertx:cloud:monitoring:healthcheck", "1")).onSuccess(response -> {
+                    redis.connect().onSuccess(conn->{
+                        conn.close();
+
                         promise.complete(Status.OK());
-                    }).onFailure(throwable -> {
+                    }).onFailure(throwable->{
                         promise.fail(throwable);
                     });
                 });
