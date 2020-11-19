@@ -10,16 +10,16 @@ import io.vertx.servicediscovery.types.RedisDataSource;
 import org.cloud.vertx.core.verticle.VertxCloudDataVerticle;
 
 
-public class RedisVerticle extends VertxCloudDataVerticle {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedisVerticle.class);
+public class RedisServiceVerticle extends VertxCloudDataVerticle {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisServiceVerticle.class);
     private static final String REDIS_CONFIG = DATA_CONFIG + "." + "redis";
 
     private String nodeName;
 
-    public RedisVerticle() {
+    public RedisServiceVerticle() {
     }
 
-    public RedisVerticle(String nodeName) {
+    public RedisServiceVerticle(String nodeName) {
         this.nodeName = nodeName;
     }
 

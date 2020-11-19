@@ -3,9 +3,7 @@ package org.cloud.vertx.core.verticle;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.ServiceDiscovery;
-import org.cloud.vertx.core.util.VertxUtils;
-
-import java.util.Objects;
+import org.cloud.vertx.core.util.VertxCloudUtils;
 
 public abstract class VertxVerticle extends AbstractVerticle {
 
@@ -17,21 +15,7 @@ public abstract class VertxVerticle extends AbstractVerticle {
      * @return JsonObject
      */
     protected JsonObject checkConfig(final String node) {
-        Objects.requireNonNull(node);
-        JsonObject config = config();
-        String[] nodes = node.split("\\.");
-
-        JsonObject entries = null;
-        for (String key : nodes) {
-            if (entries == null) {
-                entries = config;
-            }
-            if (entries.containsKey(key)) {
-                entries = entries.getJsonObject(key);
-            } else {
-                entries = null;
-            }
-        }
+        JsonObject entries = VertxCloudUtils.checkConfig(config(), node);
 
         if (entries == null) {
             throw new RuntimeException("the property " + node + " is not config, please check config");
@@ -48,6 +32,6 @@ public abstract class VertxVerticle extends AbstractVerticle {
      * @return ServiceDiscovery
      */
     protected ServiceDiscovery getServiceDiscovery() {
-        return ServiceDiscovery.create(vertx, VertxUtils.getServiceDiscoveryOptions());
+        return ServiceDiscovery.create(vertx, VertxCloudUtils.getServiceDiscoveryOptions());
     }
 }

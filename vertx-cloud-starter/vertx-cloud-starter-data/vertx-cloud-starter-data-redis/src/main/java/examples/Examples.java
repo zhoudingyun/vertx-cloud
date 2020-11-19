@@ -6,7 +6,7 @@ import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;
-import org.cloud.vertx.data.redis.RedisVerticle;
+import org.cloud.vertx.data.redis.RedisServiceVerticle;
 
 public class Examples extends AbstractVerticle {
 
@@ -18,7 +18,7 @@ public class Examples extends AbstractVerticle {
             DeploymentOptions deploymentOptions = new DeploymentOptions();
             deploymentOptions.setConfig(config);
 
-            vertx.deployVerticle(new RedisVerticle(), deploymentOptions).onSuccess(s -> {
+            vertx.deployVerticle(new RedisServiceVerticle(), deploymentOptions).onSuccess(s -> {
                 System.out.println("ok");
             }).onFailure(e -> {
                 System.out.println(e.getCause());
