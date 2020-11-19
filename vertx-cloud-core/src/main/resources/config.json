@@ -1,0 +1,14 @@
+{
+  "vertx": {
+    "application": {
+    },
+    "cloud": {
+      "messaging": {
+      },
+      "data": {
+      },
+      "monitoring": {
+      }
+    }
+  }
+}

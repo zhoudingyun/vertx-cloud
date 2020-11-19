@@ -9,8 +9,10 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.RedisDataSource;
 import org.cloud.vertx.core.verticle.VertxCloudDataVerticle;
 
+
 public class RedisVerticle extends VertxCloudDataVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisVerticle.class);
+    private static final String REDIS_CONFIG = DATA_CONFIG + "." + "redis";
 
     private String nodeName;
 
@@ -39,28 +41,24 @@ public class RedisVerticle extends VertxCloudDataVerticle {
             );
         }
 
-        this.getServiceDiscovery().publish(record);
+        // publish redis service
+        this.getServiceDiscovery().publish(record)
+                .onSuccess(resp -> {
+                    LOGGER.info("publish redis success:" + redisConfig.toString());
+                }).onFailure(throwable -> {
+            LOGGER.error("publish redis fail:" + redisConfig.toString(), throwable);
+        });
     }
 
     @Override
     protected JsonObject verifyComponentConfig() {
-        JsonObject dataConfig = verifyCloudDataConfig();
-
-        JsonObject redisConfig = dataConfig.getJsonObject("redis", null);
-        if (redisConfig == null) {
-            LOGGER.error(new RuntimeException("the property redis is not configured, please check config.json."));
-            System.exit(1);
-        }
+        JsonObject redisConfig = checkConfig(REDIS_CONFIG);
 
         if (StringUtil.isNullOrEmpty(nodeName)) {
             return redisConfig;
         }
 
-        JsonObject nodeConfig = redisConfig.getJsonObject(nodeName, null);
-        if (nodeConfig == null) {
-            LOGGER.error(new RuntimeException("the property " + nodeConfig + " is not configured, please check config.json."));
-            System.exit(1);
-        }
+        JsonObject nodeConfig = checkConfig(REDIS_CONFIG + "." + nodeName);
 
         JsonObject communalConfig = redisConfig.copy();
         communalConfig.remove(nodeName);
