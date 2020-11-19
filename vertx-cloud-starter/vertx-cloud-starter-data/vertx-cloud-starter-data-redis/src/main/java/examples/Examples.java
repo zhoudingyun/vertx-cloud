@@ -27,5 +27,7 @@ public class Examples extends AbstractVerticle {
 
         });
 
+        vertx.deployVerticle(new RedisOperation());
+
     }
 }

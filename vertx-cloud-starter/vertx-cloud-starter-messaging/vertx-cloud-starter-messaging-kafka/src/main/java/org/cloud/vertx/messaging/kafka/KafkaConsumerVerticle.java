@@ -5,6 +5,7 @@ import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
+import io.vertx.servicediscovery.Record;
 import org.cloud.vertx.core.util.VertxBeanUtils;
 import org.cloud.vertx.core.verticle.VertxCloudMessagingVerticle;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaConsumerVerticle.class);
+    private static final String KAFKA_CONFIG = MESSAGING_CONFIG + "." + "kafka";
     private String nodeName;
 
     public <K, V> KafkaConsumerVerticle() {
@@ -30,6 +32,8 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
             map.put(a.getKey(), a.getValue().toString());
         });
         KafkaConsumer<K, V> consumer = KafkaConsumer.create(vertx, map);
+
+        Record record;
         if (StringUtil.isNullOrEmpty(nodeName)) {
             VertxBeanUtils.put(KafkaConsumer.class, consumer);
         } else {
@@ -39,17 +43,11 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
 
     @Override
     protected JsonObject verifyComponentConfig() {
-        JsonObject messagingConfig = verifyCloudMessagingConfig();
-        JsonObject kafkaConfig = messagingConfig.getJsonObject("kafka", null);
-        if (kafkaConfig == null) {
-            LOGGER.error(new RuntimeException("the property kafka is not configured, please check config.json."));
-            System.exit(1);
-        }
+        JsonObject kafkaConfig = super.checkConfig(KAFKA_CONFIG);
 
         JsonObject consumerConfig = kafkaConfig.getJsonObject("consumer", null);
         if (consumerConfig == null) {
-            LOGGER.error(new RuntimeException("the property consumer is not configured, please check config.json."));
-            System.exit(1);
+            throw new RuntimeException("the property " + KAFKA_CONFIG + ".consumer is not configured, please check config.json.");
         }
 
         if (StringUtil.isNullOrEmpty(nodeName)) {
@@ -60,8 +58,7 @@ public class KafkaConsumerVerticle<K, V> extends VertxCloudMessagingVerticle {
 
         JsonObject nodeConfig = consumerConfig.getJsonObject(nodeName, null);
         if (nodeConfig == null) {
-            LOGGER.error(new RuntimeException("the property " + nodeName + " is not configured, please check config.json."));
-            System.exit(1);
+            throw new RuntimeException("the property " + KAFKA_CONFIG + ".consumer." + nodeName + " is not configured, please check config.json.");
         }
 
         JsonObject communalConsumerConfig = consumerConfig.copy();
