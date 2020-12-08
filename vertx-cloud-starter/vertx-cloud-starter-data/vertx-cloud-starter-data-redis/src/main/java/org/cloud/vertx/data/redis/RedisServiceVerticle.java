@@ -9,7 +9,6 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.RedisDataSource;
 import org.cloud.vertx.core.verticle.VertxCloudDataVerticle;
 
-
 public class RedisServiceVerticle extends VertxCloudDataVerticle {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisServiceVerticle.class);
     private static final String REDIS_CONFIG = DATA_CONFIG + "." + "redis";

@@ -10,12 +10,6 @@ public class VertxBeanUtils {
     public static <K, V> void put(K name, V instance) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(instance);
-        INSTANCES.put(name, instance);
-    }
-
-    public static <K, V> void putIfAbsent(K name, V instance) {
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(instance);
         INSTANCES.putIfAbsent(name, instance);
     }
 
@@ -31,13 +25,5 @@ public class VertxBeanUtils {
         }
 
         return (V) INSTANCES.get(name);
-    }
-
-    public static <K, V> V getOrDefault(K name, V instance) {
-        if (name == null) {
-            return null;
-        }
-
-        return (V) INSTANCES.getOrDefault(name, instance);
     }
 }

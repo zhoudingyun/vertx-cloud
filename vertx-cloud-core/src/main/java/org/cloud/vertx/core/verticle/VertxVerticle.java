@@ -24,6 +24,11 @@ public abstract class VertxVerticle extends AbstractVerticle {
         return entries;
     }
 
+    /**
+     * 验证组件的配置
+     *
+     * @return
+     */
     protected abstract JsonObject verifyComponentConfig();
 
     /**

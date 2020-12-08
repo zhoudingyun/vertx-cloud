@@ -62,7 +62,7 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
             LOGGER.error(new RuntimeException("the property health_check is not configured, please check config.json."));
             System.exit(1);
         }
-
+        JsonObject applicationConfig = null; // TODO
         vertx.eventBus().consumer("vertx.cloud.health", message -> healthChecks.invoke(message::reply));
 
         // The default detection cycle is 10000ms
@@ -147,5 +147,10 @@ public class HealthCheckVerticle extends VertxCloudMonitoringVerticle {
                 }
             }
         }
+    }
+
+    @Override
+    protected JsonObject verifyComponentConfig() {
+        return null;
     }
 }
