@@ -1,0 +1,21 @@
+{
+  "vertx": {
+    "cloud": {
+      "messaging": {
+        "kafka": {
+          "bootstrap.servers": "172.18.20.76:9092",
+          "producer": {
+            "key.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+            "value.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+            "acks": "0",
+            "kafka1": {
+              "key.serializer": "org.apache.kafka.common.serialization.LongSerializer",
+              "value.serializer": "org.apache.kafka.common.serialization.LongSerializer",
+              "acks": "1"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@
         <!--************************************************集群依赖***************************************************-->
         <!--vertx 普罗米修斯-->
         <micrometer.version>1.1.0</micrometer.version>
+        <commons-io.version>2.7</commons-io.version>
     </properties>
 
     <dependencyManagement>
@@ -397,6 +398,13 @@
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-shell</artifactId>
                 <version>${vertx.version}</version>
+            </dependency>
+
+            <!--***********************************************apache************************************************-->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

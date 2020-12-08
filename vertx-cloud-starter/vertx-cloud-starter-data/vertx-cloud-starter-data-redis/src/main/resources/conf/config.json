@@ -1,0 +1,12 @@
+{
+  "vertx": {
+    "cloud": {
+      "data": {
+        "redis": {
+          "maxPoolSize": 20,
+          "connectionString": "redis://172.18.20.76:6379"
+        }
+      }
+    }
+  }
+}
